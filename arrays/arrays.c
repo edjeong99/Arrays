@@ -31,6 +31,7 @@ Array *create_array (int capacity) {
   // so element needs to store capacity number of string which is char*
   arr->elements = malloc(capacity  * sizeof(char*)); 
 
+  return arr;
 }
 
 
@@ -40,9 +41,9 @@ Array *create_array (int capacity) {
 void destroy_array(Array *arr) {
 
   // Free all elements
-  
+  free(arr->elements);
   // Free array
-
+  free(arr);
 }
 
 /*****
@@ -52,13 +53,18 @@ void destroy_array(Array *arr) {
 void resize_array(Array *arr) {
 
   // Create a new element storage with double capacity
-
+  Array *new_arr = create_array(arr->capacity *2);
   // Copy elements into the new storage
 
+  for(int i = 0; i < arr->count; i++){
+    new_arr->elements[i] = arr->elements[i];
+  }
   // Free the old elements array (but NOT the strings they point to)
-
+  destroy_array(arr);
   // Update the elements and capacity to new values
-
+  new_arr->capacity = 
+    arr->capacity = capacity;
+  arr->count = 0;
 }
 
 
