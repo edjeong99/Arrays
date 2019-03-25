@@ -85,9 +85,12 @@ char *arr_read(Array *arr, int index) {
 
   // Throw an error if the index is greater than the current count
   if(index > arr->count){
-    printf("")
+    printf("index is out of range of Array elements");
+    exit(1);
   }
   // Otherwise, return the element at the given index
+  printf("%s\n", arr->elements[index]);
+  return arr->elements[index];
 }
 
 
@@ -97,15 +100,22 @@ char *arr_read(Array *arr, int index) {
 void arr_insert(Array *arr, char *element, int index) {
 
   // Throw an error if the index is greater than the current count
-
+  if(arr->count < index) {
+    printf("index is out of range of array");
+    exit(1);
+  }
   // Resize the array if the number of elements is over capacity
-
+  if (arr->capacity <= arr->count){
+    resize_array(arr);  
+  }
   // Move every element after the insert index to the right one position
-
+  for(int i = arr->count; i >= index; i--){
+    arr->elements[i+1] = arr->elements[i];
+  }
   // Copy the element and add it to the array
-
+  arr->elements[index] = element;
   // Increment count by 1
-
+  arr->count++;
 }
 
 /*****
@@ -115,11 +125,13 @@ void arr_append(Array *arr, char *element) {
 
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
-
+  if (arr->capacity <= arr->count){
+    resize_array(arr);  // how to throw an error
+  }
   // Copy the element and add it to the end of the array
-
+    arr->elements[arr->count] = element;
   // Increment count by 1
-
+  arr->count++;
 }
 
 /*****
@@ -132,11 +144,22 @@ void arr_remove(Array *arr, char *element) {
 
   // Search for the first occurence of the element and remove it.
   // Don't forget to free its memory!
+  int index = arr->capacity + 1;
 
+  for (int i = 0; i < arr->count; i++){
+    if(arr->elements[i] == element){
+      index = i;
+      free(arr->elements[i]);
+    }
+  }
   // Shift over every element after the removed element to the left one position
-
-  // Decrement count by 1
-
+  if(index < arr->count){  //if match was found
+    for(int i = index; i < arr->count-1;i++){
+      arr->elements[i] = arr->elements[i+1];
+    }
+    // Decrement count by 1
+    arr->count--;
+  }
 }
 
 
