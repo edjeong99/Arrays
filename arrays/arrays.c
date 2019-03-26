@@ -149,7 +149,10 @@ void arr_remove(Array *arr, char *element) {
   for (int i = 0; i < arr->count; i++){
     if(arr->elements[i] == element){
       index = i;
+      arr->elements[i] = NULL;
       free(arr->elements[i]);
+      // free(element);
+      break;
     }
   }
   // Shift over every element after the removed element to the left one position
