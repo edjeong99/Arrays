@@ -86,7 +86,8 @@ char *arr_read(Array *arr, int index) {
   // Throw an error if the index is greater than the current count
   if(index >= arr->count){
     printf("index is out of range of Array elements");
-    exit(1);
+    //exit(1);
+    return NULL;
   }
   // Otherwise, return the element at the given index
   printf("%s\n", arr->elements[index]);
