@@ -100,20 +100,26 @@ char *arr_read(Array *arr, int index) {
  *****/
 void arr_insert(Array *arr, char *element, int index) {
 // use string duplicate instead of just using = element
+// need to use strdup to create a malloc string
+// so string has a user created memory (avoid weird behavior)
 char *dup_element = strdup(element);
+
   // Throw an error if the index is greater than the current count
   if(arr->count < index) {
     printf("index is out of range of array");
     exit(1);
   }
+
   // Resize the array if the number of elements is over capacity
   if (arr->capacity <= arr->count){
     resize_array(arr);  
   }
+
   // Move every element after the insert index to the right one position
   for(int i = arr->count; i >= index; i--){
     arr->elements[i+1] = arr->elements[i];
   }
+
   // Copy the element and add it to the array
   arr->elements[index] = dup_element;
   // Increment count by 1
@@ -124,14 +130,14 @@ char *dup_element = strdup(element);
  * Append an element to the end of the array
  *****/
 void arr_append(Array *arr, char *element) {
-
+  char *dup_element = strdup(element);
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
   if (arr->capacity <= arr->count){
     resize_array(arr);  // how to throw an error
   }
   // Copy the element and add it to the end of the array
-    arr->elements[arr->count] = element;
+    arr->elements[arr->count] = dup_element;
   // Increment count by 1
   arr->count++;
 }
